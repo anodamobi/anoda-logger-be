@@ -5,7 +5,7 @@ export type LoggerDocument = Logger & Document;
 
 @Schema()
 export class Logger {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   project: string;
 
   @Prop({ required: true })
@@ -14,7 +14,7 @@ export class Logger {
   @Prop({ required: true })
   message: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   level: string;
 
   @Prop({ required: true })

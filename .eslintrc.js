@@ -47,7 +47,6 @@ module.exports = {
     'no-throw-literal': ['error'],
     'no-useless-escape': ['error'],
     'no-useless-concat': ['error'],
-    'no-warning-comments': ['error'],
     'no-with': ['error'],
     'require-await': ['off'],
     'strict': ['error', 'global'],
@@ -103,6 +102,6 @@ module.exports = {
     'unicorn/better-regex': ['off'],
     'unicorn/no-array-callback-reference': ['off'],
     'sonarjs/no-duplicate-string': ['off'],
-    'unicorn/prefer-ternary': ['off']
+    'sonarjs/cognitive-complexity': ['warn']
   },
 };

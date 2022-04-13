@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import {Controller, Get, Post, Body, UseGuards, Query} from '@nestjs/common';
 import { LoggerService } from './logger.service';
 import { CreateLoggerDto } from './dto/create-logger.dto';
 import { AuthGuard } from '@nestjs/passport';
+import {SearchPaginationDto} from "../shared/search-pagination.dto";
 
 @Controller('logger')
 export class LoggerController {
@@ -13,9 +14,14 @@ export class LoggerController {
     return this.loggerService.create(createLoggerDto);
   }
 
-  @Get()
+
+  @Get('')
   @UseGuards(AuthGuard('api-key'))
-  findAll() {
-    return this.loggerService.findAll();
+  async getAllCompanies (
+      @Query() query: SearchPaginationDto,
+  ) {
+    return  this.loggerService.getAllLogs(query);
+
   }
+
 }

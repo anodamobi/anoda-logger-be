@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDate } from 'class-validator';
+import { IsString, IsNotEmpty, IsDateString } from 'class-validator';
 
 export class LogDataDto {
   @IsString()
@@ -9,7 +9,7 @@ export class LogDataDto {
   @IsNotEmpty()
       context: string;
 
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
       timeOfIssue: string;
 

@@ -9,7 +9,6 @@ export class LogDo {
     timeOfIssue: Date;
 
 
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     constructor (props: Partial<LogDo>) {
         this._id = props._id || null;
         this.context = props.context || null;

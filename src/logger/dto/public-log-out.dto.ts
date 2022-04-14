@@ -1,4 +1,4 @@
-import { LogEntity } from '../../domain/logs.entity';
+import { LogEntity } from '../../domain/log.entity';
 
 
 export class PublicLogOutDto {

@@ -1,6 +1,6 @@
 import { InjectConnection } from '@nestjs/mongoose';
-import { LogEntity } from '../domain/logs.entity';
-import { Connection, Types } from 'mongoose';
+import { LogEntity } from '../domain/log.entity';
+import { Connection } from 'mongoose';
 import { CreateLoggerDto } from './dto/create-logger.dto';
 import { LoggerSchema } from '../_schemas/logger.schema';
 import { LogSearchDto } from './dto/log-search.dto';
@@ -24,7 +24,8 @@ export class LoggerRepository {
             ...(query.level ? { level: query.level }  : null),
         })
             .skip(query?.offset)
-            .limit(100);
+            .limit(100)
+            .sort({ timeOfIssue: 1 });
 
 
         return logs && logs.map((log) => {
@@ -36,13 +37,6 @@ export class LoggerRepository {
         return new LogEntity({
             ...logDo,
             _id: logDo._id.toHexString(),
-        });
-    }
-
-    public toDataObject (log: LogEntity) : LogDo {
-        return new LogDo({
-            ...log,
-            _id: new Types.ObjectId(log._id),
         });
     }
 }

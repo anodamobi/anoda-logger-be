@@ -8,7 +8,7 @@ export class SearchPaginationDto {
         return Number;
     })
     @Min(1)
-    page = 1;
+        page = 1;
 
     @IsOptional()
     @IsIn([10, 25, 50, 100])
@@ -17,7 +17,7 @@ export class SearchPaginationDto {
         return Number;
     })
     @Min(1)
-    limit = 25;
+        limit = 25;
 
 
     // @IsOptional()
@@ -26,11 +26,11 @@ export class SearchPaginationDto {
 
     @IsOptional()
     @IsString()
-    search: string;
+        search: string;
 
     @IsOptional()
     @IsArray()
     @IsString({ each: true })
-    tags: string[];
+        tags: string[];
 }
 

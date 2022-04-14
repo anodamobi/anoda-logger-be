@@ -1,22 +1,12 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Schema }  from 'mongoose';
+import { LogDo } from './logs.do';
 
-export type LoggerDocument = Logger & Document;
-
-@Schema({timestamps: true, versionKey: false})
-export class Logger {
-  @Prop({required: true, index: true})
-  project: string;
-
-  @Prop({required: true})
-  context: string;
-
-  @Prop({required: true})
-  message: string[];
-
-  @Prop({required: true, index: true})
-  level: string;
-
-}
-
-export const loggerSchema = SchemaFactory.createForClass(Logger);
+export const LoggerSchema = new Schema<LogDo>({
+    context:     String,
+    level:       String,
+    message:     String,
+    timeOfIssue: Date,
+}, {
+    versionKey: false,
+    timestamps: true,
+});

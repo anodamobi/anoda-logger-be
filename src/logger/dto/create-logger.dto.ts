@@ -1,19 +1,15 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { LogDataDto } from './log-data.dto';
 
 export class CreateLoggerDto {
     @IsString()
     @IsNotEmpty()
-    project: string;
+        project: string;
 
-    @IsString()
-    @IsNotEmpty()
-    context: string;
-
-    @IsString()
-    @IsNotEmpty()
-    message: string;
-
-    @IsString()
-    @IsNotEmpty()
-    level: string;
+    @ValidateNested()
+    @Type(() => {
+        return LogDataDto;
+    })
+        logData: LogDataDto;
 }

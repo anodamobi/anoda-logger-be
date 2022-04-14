@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import {LogsEntity} from "../../domain/logs.entity";
+import { LogsEntity } from '../../domain/logs.entity';
 
 @Expose()
 export class LogsOutDto extends LogsEntity {

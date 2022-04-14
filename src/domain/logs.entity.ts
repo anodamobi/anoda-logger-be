@@ -1,15 +1,15 @@
-import {Types} from "mongoose";
+import { Types } from 'mongoose';
 
 export class LogsEntity {
     _id: Types.ObjectId;
     project: string;
     context: string;
     message: string[];
-    level: string
+    level: string;
 
 
     // eslint-disable-next-line sonarjs/cognitive-complexity
-    constructor(init: Partial<LogsEntity>) {
+    constructor (init: Partial<LogsEntity>) {
         this._id = init._id || null;
         this.project = init.project || null;
         this.context = init.context || null;

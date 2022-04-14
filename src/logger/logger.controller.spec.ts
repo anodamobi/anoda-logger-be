@@ -3,18 +3,18 @@ import { LoggerController } from './logger.controller';
 import { LoggerService } from './logger.service';
 
 describe('LoggerController', () => {
-  let controller: LoggerController;
+    let controller: LoggerController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [LoggerController],
-      providers: [LoggerService],
-    }).compile();
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            controllers: [LoggerController],
+            providers:   [LoggerService],
+        }).compile();
 
-    controller = module.get<LoggerController>(LoggerController);
-  });
+        controller = module.get<LoggerController>(LoggerController);
+    });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(controller).toBeDefined();
+    });
 });

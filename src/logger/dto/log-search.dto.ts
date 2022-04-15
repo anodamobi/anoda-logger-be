@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class LogSearchDto {
   @IsString()
@@ -10,6 +10,6 @@ export class LogSearchDto {
       project: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumberString()
       offset: number;
 }

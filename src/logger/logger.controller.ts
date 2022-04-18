@@ -11,14 +11,17 @@ export class LoggerController {
 
   @Post()
     create (@Body() createLoggerDto: CreateLoggerDto) {
-        this.loggerService.create(createLoggerDto);
+        this.loggerService.create(createLoggerDto)
+            .catch((error) => {
+                console.log(error);
+            });
 
         return 'Created';
     }
 
 
     @Get('')
-  async getAllCompanies (
+  async getAllLogs (
         @Query() query: LogSearchDto,
   ) {
       return  this.loggerService.getAllLogs(query);

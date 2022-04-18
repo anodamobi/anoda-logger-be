@@ -1,19 +1,19 @@
-import { IsString, IsNotEmpty, IsDateString } from 'class-validator';
+import { IsString, IsNotEmpty, IsDateString, IsOptional } from 'class-validator';
 
 export class LogDataDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
       message: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
       context: string;
 
   @IsDateString()
   @IsNotEmpty()
-      timeOfIssue: string;
+      timestamp: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
       level: string;
 }

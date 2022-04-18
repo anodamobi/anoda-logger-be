@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validato
 
 export class LogSearchDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
       level: string;
 
   @IsString()
@@ -12,4 +12,8 @@ export class LogSearchDto {
   @IsOptional()
   @IsNumberString()
       offset: number;
+
+  @IsNumberString()
+  @IsNotEmpty()
+      limit: number;
 }

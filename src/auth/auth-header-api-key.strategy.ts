@@ -1,13 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { config } from 'dotenv';
 import Strategy from 'passport-headerapikey';
-
-config();
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class HeaderApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
-    constructor () {
+    constructor (private readonly configService: ConfigService) {
         super({ header: 'x-access-token', prefix: '' },
             true,
             async (apiKey, done) => {
@@ -15,8 +13,9 @@ export class HeaderApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') 
             });
     }
 
-    public validate = (apiKey: string, done: (error: Error, data) => {}) => {
-        if (process.env.API_KEY === apiKey) {
+    public validate = (apiKey: string, done) => {
+        if (this.configService.get('API_KEY') === apiKey) {
+            // eslint-disable-next-line callback-return
             done(null, true);
         }
         done(new UnauthorizedException(), null);

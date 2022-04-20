@@ -1,19 +1,28 @@
-import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class LogSearchDto {
   @IsString()
   @IsOptional()
-      level: string;
+      traceId: string;
 
   @IsString()
   @IsNotEmpty()
       project: string;
 
+  @IsInt()
   @IsOptional()
-  @IsNumberString()
-      offset: number;
+  @Type(() => {
+      return Number;
+  })
+  @Min(1)
+      page = 1;
 
-  @IsNumberString()
-  @IsNotEmpty()
-      limit: number;
+  @IsOptional()
+  @IsIn([10, 25, 50, 100])
+  @IsInt()
+  @Type(() => {
+      return Number;
+  })
+      limit = 25;
 }

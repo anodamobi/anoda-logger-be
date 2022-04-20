@@ -11,5 +11,5 @@ export class CreateLoggerDto {
     @Type(() => {
         return LogDataDto;
     })
-        logData: LogDataDto;
+        logData: LogDataDto[];
 }

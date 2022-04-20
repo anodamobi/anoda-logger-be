@@ -24,7 +24,7 @@ export class LoggerController {
   async getAllLogs (
         @Query() query: LogSearchDto,
   ) {
-      return  this.loggerService.getAllLogs(query);
+      return this.loggerService.getAllLogs(query);
   }
 
 }

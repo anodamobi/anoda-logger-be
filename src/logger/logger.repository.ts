@@ -15,6 +15,12 @@ export class LoggerRepository {
     }
 
     public async create (createLoggerDto: CreateLoggerDto) {
+        const projects = process.env.PROJECTS.split('/');
+
+        if (!projects.includes(createLoggerDto.project)) {
+            throw new HttpException('Your project does not exist', HttpStatus.NOT_FOUND);
+        }
+
         if (this.models.hasOwnProperty(createLoggerDto.project)) {
             const model = this.models[createLoggerDto.project];
             await model.create(createLoggerDto.logData);
@@ -27,9 +33,16 @@ export class LoggerRepository {
     }
 
     public async findAll (query: LogSearchDto) {
-        const logModel = this.models[query.project];
+        const projects = process.env.PROJECTS.split('/');
+
+        if (!projects.includes(query.project)) {
+            throw new HttpException('Collection for this project not found', HttpStatus.NOT_FOUND);
+        }
+
+        let logModel = this.models[query.project];
         if (!logModel) {
-            throw new HttpException('Collection not found', HttpStatus.NOT_FOUND);
+            logModel = this.conn.model(query.project, LoggerSchema);
+            this.models[query.project] = logModel;
         }
         const totalItems = await logModel.countDocuments();
         const logs = await logModel.find({

@@ -5,12 +5,13 @@ import { UserRepository } from '../user/user.repository';
 import * as jwt from 'jsonwebtoken';
 import moment from 'moment';
 import crypto from 'node:crypto';
+import { RefreshTokenRepository } from './repository/refresh-token.repository';
 
 
 @Injectable()
 export class AuthService {
-
-    constructor (private readonly userRepository: UserRepository) {}
+    constructor (private readonly userRepository: UserRepository,
+                 private refreshTokenRepository: RefreshTokenRepository) {}
 
     public async googleLogin (userFromGoogle: GoogleUserDto, ip: string, isIosLogin = false): Promise<TUserAuth> {
         if (!userFromGoogle || !userFromGoogle.email || !userFromGoogle.googleId) {
@@ -69,13 +70,14 @@ export class AuthService {
     }
 
     private async _generateRefreshToken (userId: string, ip: string) {
-        const token = new RefreshToken({
+        return this.refreshTokenRepository.create({
             userId,
             token:       this._randomTokenString(),
             expiresAt:   moment().add(process.env.REFRESH_TOKEN_TTL, 'seconds').toDate(),
             createdByIp: ip,
         });
     }
+
     private _randomTokenString () {
         return crypto.randomBytes(360).toString('hex');
     }

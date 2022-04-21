@@ -1,5 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserRepository {
     constructor (@InjectModel('User') private userModel) {}
 

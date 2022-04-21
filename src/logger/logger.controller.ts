@@ -5,11 +5,11 @@ import { LogSearchDto } from './dto/log-search.dto';
 import { LoggerRepository } from './logger.repository';
 
 @Controller('logger')
-@UseGuards(AuthGuard('api-key'))
 export class LoggerController {
     constructor (private readonly loggerRepository: LoggerRepository) {}
 
   @Post()
+  @UseGuards(AuthGuard('api-key'))
     create (@Body() createLoggerDto: CreateLoggerDto) {
         this.loggerRepository.create(createLoggerDto)
             .catch((error) => {
@@ -26,5 +26,11 @@ export class LoggerController {
   ) {
       return this.loggerRepository.findAll(query);
   }
+
+  @Get('/projects')
+  @UseGuards(AuthGuard('google'))
+    getListOfprojects () {
+        return this.loggerRepository.findAllProjects();
+    }
 
 }

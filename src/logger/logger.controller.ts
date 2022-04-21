@@ -1,17 +1,17 @@
 import { Controller, Get, Post, Body, UseGuards, Query } from '@nestjs/common';
-import { LoggerService } from './logger.service';
 import { CreateLoggerDto } from './dto/create-logger.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { LogSearchDto } from './dto/log-search.dto';
+import { LoggerRepository } from './logger.repository';
 
 @Controller('logger')
 @UseGuards(AuthGuard('api-key'))
 export class LoggerController {
-    constructor (private readonly loggerService: LoggerService) {}
+    constructor (private readonly loggerRepository: LoggerRepository) {}
 
   @Post()
     create (@Body() createLoggerDto: CreateLoggerDto) {
-        this.loggerService.create(createLoggerDto)
+        this.loggerRepository.create(createLoggerDto)
             .catch((error) => {
                 console.log(error);
             });
@@ -24,7 +24,7 @@ export class LoggerController {
   async getAllLogs (
         @Query() query: LogSearchDto,
   ) {
-      return this.loggerService.getAllLogs(query);
+      return this.loggerRepository.findAll(query);
   }
 
 }

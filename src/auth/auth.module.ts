@@ -10,12 +10,13 @@ import { RefreshTokenSchema } from '../_schemas/refresh-token.schema';
 import { AuthService } from './auth.service';
 import { UserSchema } from '../_schemas/user.schema';
 import { UserModule } from '../user/user.module';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
     imports: [PassportModule, ConfigModule, UserModule,
         MongooseModule.forFeature([{ name: 'RefreshToken', schema: RefreshTokenSchema },
             { name: 'User', schema: UserSchema }])],
     controllers: [AuthController],
-    providers:   [HeaderApiKeyStrategy, GoogleStrategy, RefreshTokenRepository, AuthService],
+    providers:   [HeaderApiKeyStrategy, GoogleStrategy, JwtStrategy, RefreshTokenRepository, AuthService],
 })
 export class AuthModule {}

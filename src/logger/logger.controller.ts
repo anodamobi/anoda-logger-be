@@ -3,6 +3,7 @@ import { CreateLoggerDto } from './dto/create-logger.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { LogSearchDto } from './dto/log-search.dto';
 import { LoggerRepository } from './logger.repository';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('logger')
 export class LoggerController {
@@ -20,10 +21,9 @@ export class LoggerController {
     }
 
 
-    @Get('')
-  async getAllLogs (
-        @Query() query: LogSearchDto,
-  ) {
+    @Get()
+    @UseGuards(JwtAuthGuard)
+  getAllLogs (@Query() query: LogSearchDto) {
       return this.loggerRepository.findAll(query);
   }
 

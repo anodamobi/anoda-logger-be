@@ -12,10 +12,14 @@ export class AuthController {
     private readonly authService: AuthService,
     ) {}
 
+  @Get('/google/login')
+  @UseGuards(AuthGuard('google'))
+    async googleLogin (@Req() req)  {}
+
   @Get('/google/redirect')
   @UseGuards(AuthGuard('google'))
-    async googleAuthRedirect (@Req() req): Promise<TUserAuth>  {
-        return this.authService.googleLogin(req.user, req.ip);
-    }
+  async googleAuthRedirect (@Req() req): Promise<TUserAuth>  {
+      return this.authService.googleLogin(req.user, req.ip);
+  }
 
 }

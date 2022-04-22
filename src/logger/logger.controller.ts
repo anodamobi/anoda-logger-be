@@ -28,7 +28,7 @@ export class LoggerController {
   }
 
   @Get('/projects')
-  @UseGuards(AuthGuard('google'))
+  @UseGuards(JwtAuthGuard)
     getListOfprojects () {
         return this.loggerRepository.findAllProjects();
     }

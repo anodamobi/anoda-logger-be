@@ -2,7 +2,6 @@
 export interface IUserAuthenticationPayload {
   id: string,
   email?: string
-  authType:         string,
   lastName?:         string,
   firstName?:        string
 }
@@ -22,6 +21,5 @@ export interface IUserRes {
 
 export interface IAuth {
   jwt: string,
-  refreshToken: string
   expiresIn: number
 }

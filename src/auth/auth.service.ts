@@ -3,31 +3,26 @@ import { GoogleUserDto } from './dto/google-user.dto';
 import { IUserAuthenticationPayload, TUserAuth } from '../interfaces/interfaces';
 import { UserRepository } from '../user/user.repository';
 import * as jwt from 'jsonwebtoken';
-import moment from 'moment';
-import crypto from 'node:crypto';
-import { RefreshTokenRepository } from './repository/refresh-token.repository';
 
 
 @Injectable()
 export class AuthService {
-    constructor (private readonly userRepository: UserRepository,
-                 private refreshTokenRepository: RefreshTokenRepository) {}
+    constructor (private readonly userRepository: UserRepository) {}
 
-    public async googleLogin (userFromGoogle: GoogleUserDto, ip: string, isIosLogin = false): Promise<TUserAuth> {
+    public async googleLogin (userFromGoogle: GoogleUserDto): Promise<TUserAuth> {
         if (!userFromGoogle || !userFromGoogle.email || !userFromGoogle.googleId) {
             throw new InternalServerErrorException('Error handling Google OAuth2');
         }
 
         return this.authenticate({
             id:        userFromGoogle.googleId,
-            authType:  'google',
             email:     userFromGoogle.email,
             firstName: userFromGoogle.firstName,
             lastName:  userFromGoogle.lastName,
-        }, ip, isIosLogin);
+        });
     }
 
-    private async authenticate (userPayload: IUserAuthenticationPayload, ip, isIosAuth = false) {
+    private async authenticate (userPayload: IUserAuthenticationPayload) {
         let user = await this.userRepository.findOne({ authToken: userPayload.id });
         let isNewUser = false;
 
@@ -48,37 +43,21 @@ export class AuthService {
             }
         }
 
-
-        const jwtToken = this._generateJwtToken(user._id, isIosAuth);
-        const refreshToken = await this._generateRefreshToken(user._id, ip);
+        const jwtToken = this._generateJwtToken(user._id);
 
         return {
             user: user,
             auth: {
-                jwt:          jwtToken,
-                refreshToken: refreshToken.token,
-                expiresIn:    Number(process.env.JWT_TTL),
+                jwt:       jwtToken,
+                expiresIn: Number(process.env.JWT_TTL),
             },
             isNewUser,
         };
     }
 
-    private _generateJwtToken (userId: string, isIosAuth = false): string {
+    private _generateJwtToken (userId: string): string {
         return jwt.sign({ sub: userId, id: userId },
             process.env.JWT_PRIVATE_KEY,
-            { expiresIn: `${isIosAuth ? moment.duration(1, 'months').seconds() : process.env.JWT_TTL}s` });
-    }
-
-    private async _generateRefreshToken (userId: string, ip: string) {
-        return this.refreshTokenRepository.create({
-            userId,
-            token:       this._randomTokenString(),
-            expiresAt:   moment().add(process.env.REFRESH_TOKEN_TTL, 'seconds').toDate(),
-            createdByIp: ip,
-        });
-    }
-
-    private _randomTokenString () {
-        return crypto.randomBytes(360).toString('hex');
+            { expiresIn: `${process.env.JWT_TTL}s` });
     }
 }

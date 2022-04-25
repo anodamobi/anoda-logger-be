@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { GoogleUserDto } from './dto/google-user.dto';
 import { IUserAuthenticationPayload, TUserAuth } from '../interfaces/interfaces';
 import { UserRepository } from '../user/user.repository';
@@ -10,10 +10,6 @@ export class AuthService {
     constructor (private readonly userRepository: UserRepository) {}
 
     public async googleLogin (userFromGoogle: GoogleUserDto): Promise<TUserAuth> {
-        if (!userFromGoogle || !userFromGoogle.email || !userFromGoogle.googleId) {
-            throw new InternalServerErrorException('Error handling Google OAuth2');
-        }
-
         return this.authenticate({
             id:        userFromGoogle.googleId,
             email:     userFromGoogle.email,

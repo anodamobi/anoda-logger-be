@@ -15,7 +15,7 @@ export class LoggerRepository {
     }
 
     public async create (createLoggerDto: CreateLoggerDto) {
-        const projects = process.env.PROJECTS.split('/');
+        const projects = process.env.PROJECTS.split(' ');
 
         if (!projects.includes(createLoggerDto.project)) {
             throw new HttpException('Your project does not exist', HttpStatus.NOT_FOUND);
@@ -33,7 +33,7 @@ export class LoggerRepository {
     }
 
     public async findAll (query: LogSearchDto) {
-        const projects = process.env.PROJECTS.split('/');
+        const projects = process.env.PROJECTS.split(' ');
 
         if (!projects.includes(query.project)) {
             throw new HttpException('Collection for this project not found', HttpStatus.NOT_FOUND);
@@ -52,6 +52,10 @@ export class LoggerRepository {
             .limit(query.limit)
             .sort({ timeOfIssue: 1 });
 
+        if (logs.length === 0) {
+            throw new HttpException('No logs for this project exist', HttpStatus.NOT_FOUND);
+        }
+
         return {
             pagination: {
                 ...this.getPaginationData(query, totalItems),
@@ -61,6 +65,12 @@ export class LoggerRepository {
             }),
         };
     }
+
+    findAllProjects () {
+        const projects = process.env.PROJECTS.split(' ');
+        return { projects: projects };
+    }
+
 
     private getPaginationData (query: LogSearchDto, totalItems: number) {
         return {

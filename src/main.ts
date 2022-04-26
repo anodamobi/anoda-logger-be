@@ -9,5 +9,10 @@ async function bootstrap () {
         new ValidationPipe({ transform: true, whitelist: true }),
     );
     await app.listen(process.env.PORT);
+
+    app.enableCors({
+        credentials: true,
+        origin:      '*',
+    });
 }
 bootstrap();

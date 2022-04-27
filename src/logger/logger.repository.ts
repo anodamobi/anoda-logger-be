@@ -44,13 +44,32 @@ export class LoggerRepository {
             logModel = this.conn.model(query.project, LoggerSchema);
             this.models[query.project] = logModel;
         }
-        const totalItems = await logModel.countDocuments();
+
+        let timeQuery = null;
+
+        if (query.dateFrom && query.dateUntil) {
+            timeQuery = { timestamp: { $gte: (new Date(query.dateFrom)).toISOString(),
+                $lte: (new Date(query.dateUntil)).toISOString() } };
+        }
+        else if (query.dateFrom) {
+            timeQuery = { timestamp: { $gte: (new Date(query.dateFrom)).toISOString() } };
+        }
+        else if (query.dateUntil) {
+            timeQuery = { timestamp: { $lte: (new Date(query.dateUntil)).toISOString() } };
+        }
+
+
+        const totalItems = await logModel.countDocuments({
+            ...(query.traceId ? { traceId: query.traceId } : null),
+            ...(timeQuery) });
+
         const logs = await logModel.find({
             ...(query.traceId ? { traceId: query.traceId } : null),
+            ...(timeQuery),
         })
             .skip(query.limit * (query.page - 1))
             .limit(query.limit)
-            .sort({ timeOfIssue: 1 });
+            .sort({ timestamp: 1 });
 
         if (logs.length === 0) {
             throw new HttpException('No logs for this project exist', HttpStatus.NOT_FOUND);

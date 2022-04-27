@@ -46,7 +46,7 @@ export class LoggerRepository {
         }
         const totalItems = await logModel.countDocuments();
         const logs = await logModel.find({
-            ...(query.traceId ? { level: query.traceId } : null),
+            ...(query.traceId ? { traceId: query.traceId } : null),
         })
             .skip(query.limit * (query.page - 1))
             .limit(query.limit)

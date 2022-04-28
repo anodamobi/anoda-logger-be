@@ -10,9 +10,12 @@ async function bootstrap () {
     );
     await app.listen(process.env.PORT);
 
-    // app.enableCors({
-    //     credentials: true,
-    //     origin:      ['\'http://localhost:3000\''],
-    // });
+    app.enableCors({
+        credentials: true,
+        origin:      [
+            'http://ec2-3-65-184-108.eu-central-1.compute.amazonaws.com',
+            'http://localhost:3000'
+        ],
+    });
 }
 bootstrap();

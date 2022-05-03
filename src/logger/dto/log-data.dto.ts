@@ -16,4 +16,8 @@ export class LogDataDto {
   @IsString()
   @IsOptional()
       traceId: string;
+
+  @IsString()
+  @IsOptional()
+      env: string;
 }

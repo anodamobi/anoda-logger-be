@@ -7,6 +7,14 @@ export class LogSearchDto {
       traceId: string;
 
   @IsString()
+  @IsOptional()
+      env: string;
+
+  @IsString()
+  @IsOptional()
+      context: string;
+
+  @IsString()
   @IsNotEmpty()
       project: string;
 

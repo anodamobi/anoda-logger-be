@@ -11,8 +11,8 @@ export class LoggerController {
 
   @Post()
   @UseGuards(AuthGuard('api-key'))
-    create (@Body() createLoggerDto: CreateLoggerDto) {
-        this.loggerRepository.create(createLoggerDto)
+    async create (@Body() createLoggerDto: CreateLoggerDto) {
+        await this.loggerRepository.create(createLoggerDto)
             .catch((error) => {
                 console.log(error);
             });

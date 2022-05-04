@@ -8,14 +8,15 @@ async function bootstrap () {
     app.useGlobalPipes(
         new ValidationPipe({ transform: true, whitelist: true }),
     );
-    await app.listen(process.env.PORT);
+
 
     app.enableCors({
         credentials: true,
         origin:      [
             'http://ec2-3-65-184-108.eu-central-1.compute.amazonaws.com',
-            'http://localhost:3000'
+            'http://localhost:3002',
         ],
     });
+    await app.listen(process.env.PORT);
 }
 bootstrap();

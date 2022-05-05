@@ -11,7 +11,12 @@ import { ConfigModule } from '@nestjs/config';
         isGlobal:    true,
         envFilePath: ['.env'],
         cache:       true,
-    }), MongooseModule.forRoot(process.env.DATABASE)],
+    }),
+    MongooseModule.forRoot(process.env.DATABASE, {
+        useNewUrlParser: true,
+        connectionName:  'data',
+    }),
+    ],
 
     controllers: [AppController],
     providers:   [AppService],

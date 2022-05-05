@@ -14,7 +14,7 @@ async function bootstrap () {
         credentials: true,
         origin:      [
             'http://ec2-3-65-184-108.eu-central-1.compute.amazonaws.com',
-            'http://localhost:3002',
+            'http://localhost:3000',
         ],
     });
     await app.listen(process.env.PORT);

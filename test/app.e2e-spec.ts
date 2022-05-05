@@ -52,7 +52,6 @@ describe('AppController (e2e)', () => {
     afterAll(async () => {
         await app.close();
 
-        await mongoose.connection.db.dropDatabase();
         await mongoose.disconnect();
     });
 

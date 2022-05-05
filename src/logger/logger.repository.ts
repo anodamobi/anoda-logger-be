@@ -9,7 +9,7 @@ import { PublicLogOutDto } from './dto/public-log-out.dto';
 export class LoggerRepository {
     private models: Object;
     constructor (
-        @InjectConnection() private conn: Connection,
+        @InjectConnection('data') private conn: Connection,
     ) {
         this.models = {};
     }
@@ -26,7 +26,7 @@ export class LoggerRepository {
             await model.create(createLoggerDto.logData);
         }
         else {
-            const model = this.conn.model(createLoggerDto.project, LoggerSchema);
+            const model = await this.conn.model(createLoggerDto.project, LoggerSchema);
             this.models[createLoggerDto.project] = model;
             await model.create(createLoggerDto.logData);
         }

@@ -15,6 +15,7 @@ async function bootstrap () {
         origin:      [
             'http://ec2-3-65-184-108.eu-central-1.compute.amazonaws.com:3002',
             'http://localhost:3000',
+            'https://d1s413wgxi3ibq.cloudfront.net/login',
         ],
     });
     await app.listen(process.env.PORT);

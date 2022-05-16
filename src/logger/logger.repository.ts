@@ -73,7 +73,7 @@ export class LoggerRepository {
         })
             .skip(query.limit * (query.page - 1))
             .limit(query.limit)
-            .sort({ timestamp: 1 });
+            .sort({ timestamp: query.order });
 
         if (logs.length === 0) {
             throw new HttpException('No logs for this project exist', HttpStatus.NOT_FOUND);

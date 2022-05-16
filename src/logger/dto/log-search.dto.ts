@@ -2,6 +2,15 @@ import { IsDateString, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from
 import { Type } from 'class-transformer';
 
 export class LogSearchDto {
+
+  @IsOptional()
+  @IsInt()
+  @IsIn([1, -1])
+  @Type(() => {
+      return Number;
+  })
+      order = 1;
+
   @IsString()
   @IsOptional()
       traceId: string;

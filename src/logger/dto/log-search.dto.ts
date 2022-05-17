@@ -2,7 +2,6 @@ import { IsDateString, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from
 import { Type } from 'class-transformer';
 
 export class LogSearchDto {
-
   @IsOptional()
   @IsInt()
   @IsIn([1, -1])

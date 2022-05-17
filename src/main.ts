@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap () {
     const app = await NestFactory.create(AppModule, { cors: true });
@@ -8,6 +9,15 @@ async function bootstrap () {
     app.useGlobalPipes(
         new ValidationPipe({ transform: true, whitelist: true }),
     );
+
+    const config = new DocumentBuilder()
+        .setTitle('Logger example')
+        .setDescription('The logger API description')
+        .setVersion('1.0')
+        .addTag('logger')
+        .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
 
 
     app.enableCors({

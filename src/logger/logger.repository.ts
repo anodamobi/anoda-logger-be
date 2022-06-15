@@ -5,6 +5,8 @@ import { LoggerSchema } from '../_schemas/logger.schema';
 import { LogSearchDto } from './dto/log-search.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { PublicLogOutDto } from './dto/public-log-out.dto';
+import { Cron } from '@nestjs/schedule';
+import moment from 'moment';
 
 export class LoggerRepository {
     private models: Object;
@@ -61,13 +63,13 @@ export class LoggerRepository {
 
         const totalItems = await logModel.countDocuments({
             ...(query.traceId ? { traceId: query.traceId } : null),
-            ...(query.context ? { context: query.context } : null),
+            ...(query.context ? { context: { $in: query.context } } : null),
             ...(query.env ? { env: query.env } : null),
             ...(timeQuery) });
 
         const logs = await logModel.find({
             ...(query.traceId ? { traceId: query.traceId } : null),
-            ...(query.context ? { context: query.context } : null),
+            ...(query.context ? { context: { $in: query.context } } : null),
             ...(query.env ? { env: query.env } : null),
             ...(timeQuery),
         })
@@ -101,5 +103,16 @@ export class LoggerRepository {
             page:  query.page,
             limit: query.limit,
         };
+    }
+
+    @Cron('0 12 * * *')
+    private async deleteOldLogs () {
+        for (const model in this.models) {
+            const time = moment().subtract(30, 'days').toDate();
+            const logModel = this.models[model];
+            await logModel.deleteMany({
+                timestamp: { $lt: time },
+            });
+        }
     }
 }

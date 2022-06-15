@@ -1,4 +1,4 @@
-import { IsDateString, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import { IsArray, IsDateString, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class LogSearchDto {
@@ -18,9 +18,10 @@ export class LogSearchDto {
   @IsOptional()
       env: string;
 
-  @IsString()
+  @IsString({ each: true })
+  @IsArray()
   @IsOptional()
-      context: string;
+      context: string[];
 
   @IsString()
   @IsNotEmpty()

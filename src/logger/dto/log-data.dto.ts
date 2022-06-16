@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsDateString, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsDateString, IsOptional, IsEnum } from 'class-validator';
+import { ELevel } from '../../_shared/interfaces';
 
 export class LogDataDto {
   @IsString()
@@ -12,6 +13,10 @@ export class LogDataDto {
   @IsDateString()
   @IsNotEmpty()
       timestamp: string;
+
+  @IsOptional()
+  @IsEnum(ELevel)
+      level: ELevel;
 
   @IsString()
   @IsOptional()

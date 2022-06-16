@@ -1,5 +1,6 @@
-import { IsArray, IsDateString, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import { IsArray, IsDateString, IsEnum, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ELevel } from '../../_shared/interfaces';
 
 export class LogSearchDto {
   @IsOptional()
@@ -22,6 +23,11 @@ export class LogSearchDto {
   @IsArray()
   @IsOptional()
       context: string[];
+
+  @IsOptional()
+  @IsEnum(ELevel, { each: true })
+  @IsArray()
+      level: ELevel[];
 
   @IsString()
   @IsNotEmpty()

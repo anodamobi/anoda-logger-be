@@ -64,12 +64,14 @@ export class LoggerRepository {
         const totalItems = await logModel.countDocuments({
             ...(query.traceId ? { traceId: query.traceId } : null),
             ...(query.context ? { context: { $in: query.context } } : null),
+            ...(query.level ? { level: { $in: query.level } } : null),
             ...(query.env ? { env: query.env } : null),
             ...(timeQuery) });
 
         const logs = await logModel.find({
             ...(query.traceId ? { traceId: query.traceId } : null),
             ...(query.context ? { context: { $in: query.context } } : null),
+            ...(query.level ? { level: { $in: query.level } } : null),
             ...(query.env ? { env: query.env } : null),
             ...(timeQuery),
         })
